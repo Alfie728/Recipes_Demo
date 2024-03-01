@@ -97,7 +97,15 @@ const App = () => {
     );
   }, [lastSelectedRecipeID]);
 
-  function trackRecipeSelection(id) {
+  function selectRecipe() {
+    return recipes.find((recipe) => recipe.id === selectedRecipeID);
+  }
+
+  function styleLastSelection(id) {
+    if (!selectedRecipeID && id === lastSelectedRecipeID) {
+      setLastSelectedRecipeID(null);
+    }
+
     if (selectedRecipeID && id !== selectedRecipeID) {
       setLastSelectedRecipeID(selectedRecipeID);
     }
@@ -119,12 +127,8 @@ const App = () => {
         },
       ],
     };
-    trackRecipeSelection(newRecipe.id);
+    styleLastSelection(newRecipe.id);
     setRecipes([...recipes, newRecipe]);
-  }
-
-  function selectRecipe() {
-    return recipes.find((recipe) => recipe.id === selectedRecipeID);
   }
 
   function deleteRecipe(id) {
@@ -147,14 +151,14 @@ const App = () => {
         recipes={recipes}
         selectedRecipeID={selectedRecipeID}
         lastSelectedRecipeID={lastSelectedRecipeID}
-        trackRecipeSelection={trackRecipeSelection}
+        styleLastSelection={styleLastSelection}
         addRecipe={addRecipe}
         deleteRecipe={deleteRecipe}
       />
       {selectedRecipeID && (
         <EditorPanel
           selectRecipe={selectRecipe}
-          trackRecipeSelection={trackRecipeSelection}
+          styleLastSelection={styleLastSelection}
           editRecipe={editRecipe}
         />
       )}

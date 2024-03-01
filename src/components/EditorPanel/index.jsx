@@ -6,7 +6,7 @@ import Instructions from './Instructions';
 import Ingredients from './Ingredients';
 
 const EditorPanel = (props) => {
-  const { selectRecipe, trackRecipeSelection, editRecipe } = props;
+  const { selectRecipe, styleLastSelection, editRecipe } = props;
 
   const recipe = selectRecipe();
   const { id, name, cookTime, servings, instructions, ingredients } = recipe;
@@ -50,10 +50,7 @@ const EditorPanel = (props) => {
     <div className={styles['container']}>
       <div className={styles['container_header']}>
         <span className={styles['container_title']}>Edit Recipe</span>
-        <Button
-          className="btn-danger"
-          onClick={() => trackRecipeSelection(null)}
-        >
+        <Button className="btn-danger" onClick={() => styleLastSelection(null)}>
           X
         </Button>
       </div>

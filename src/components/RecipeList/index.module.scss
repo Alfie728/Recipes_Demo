@@ -45,16 +45,16 @@
   padding-bottom: 4rem;
 }
 
-.recipe.last-selected {
-  // background-color: rgba(0, 255, 255, 0.145);
-  // border: 1px dashed gray;
-  @include base.lastChosen;
-}
-
 .recipe.selected {
   // background-color: rgba(0, 119, 255, 0.601);
   // border: 1px solid black;
   @include base.chosen;
+}
+
+.recipe.last-selected {
+  // background-color: rgba(0, 255, 255, 0.145);
+  // border: 1px dashed gray;
+  @include base.lastChosen;
 }
 
 .the-end {

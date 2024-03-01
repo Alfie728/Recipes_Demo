@@ -1,6 +1,6 @@
 import { classNameStyled } from '@/utils';
 import styles from './index.module.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from '@/components/Button';
 import Header from '@/components/RecipeList/Header';
 import Content from '@/components/RecipeList/Content';
@@ -10,7 +10,7 @@ const RecipeList = (props) => {
     recipes,
     selectedRecipeID,
     lastSelectedRecipeID,
-    trackRecipeSelection,
+    styleLastSelection,
     addRecipe,
     deleteRecipe,
     recipeListClassNames,
@@ -18,14 +18,14 @@ const RecipeList = (props) => {
 
   const classNames = classNameStyled(recipeListClassNames, styles, 'container');
 
-  const [newRecipe, setNewRecipe] = React.useState(false); // scrollIntoView
-  const ref = React.useRef();
+  const [newRecipe, setNewRecipe] = useState(false); // scrollIntoView
+  const ref = useRef();
   const addRecipeThenScrollIntoView = () => {
     addRecipe();
     setNewRecipe(true);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (newRecipe) {
       setTimeout(() => {
         ref.current.scrollIntoView({
@@ -60,8 +60,8 @@ const RecipeList = (props) => {
               {...recipe}
               className={styles['recipe']}
               selectedRecipeID={selectedRecipeID}
-              trackRecipeSelection={trackRecipeSelection}
               lastSelectedRecipeID={lastSelectedRecipeID}
+              styleLastSelection={styleLastSelection}
               deleteRecipe={deleteRecipe}
             />
           );
@@ -94,15 +94,15 @@ const Recipe = (props) => {
     className,
     selectedRecipeID,
     lastSelectedRecipeID,
-    trackRecipeSelection,
+    styleLastSelection,
     deleteRecipe,
     ...rest
   } = props;
 
-  const [selected, setSelected] = useState(false);
-  const [lastSelected, setLastSelected] = useState(false);
-  const [recipeClassName, setRecipeClassName] = useState();
+  const [ifSelected, setSelectedStyling] = useState(false);
+  const [ifLastSelected, setLastSelectedStyling] = useState(false);
   const [recipeClassNameList, setRecipeClassNameList] = useState(['recipe']);
+  const [recipeClassNames, setRecipeClassNames] = useState();
 
   function addClassName(className) {
     removeClassName(className);
@@ -114,27 +114,29 @@ const Recipe = (props) => {
   }
 
   useEffect(() => {
-    selected ? addClassName('selected') : removeClassName('selected');
-  }, [selected]);
+    ifSelected ? addClassName('selected') : removeClassName('selected');
+  }, [ifSelected]);
 
   useEffect(() => {
-    lastSelected
+    ifLastSelected
       ? addClassName('last-selected')
       : removeClassName('last-selected');
-  }, [lastSelected]);
+  }, [ifLastSelected]);
 
   useEffect(() => {
-    id === selectedRecipeID ? setSelected(true) : setSelected(false);
+    id === selectedRecipeID
+      ? setSelectedStyling(true)
+      : setSelectedStyling(false);
   }, [id, selectedRecipeID]);
 
   useEffect(() => {
     id === lastSelectedRecipeID
-      ? setLastSelected(true)
-      : setLastSelected(false);
+      ? setLastSelectedStyling(true)
+      : setLastSelectedStyling(false);
   }, [id, lastSelectedRecipeID]);
 
   useEffect(() => {
-    setRecipeClassName(
+    setRecipeClassNames(
       classNameStyled(className, styles, recipeClassNameList.join(' '))
     );
   }, [recipeClassNameList]);
@@ -142,9 +144,9 @@ const Recipe = (props) => {
   return (
     <div className={styles['recipe_container']}>
       <div
-        className={recipeClassName}
+        className={recipeClassNames}
         onClick={() => {
-          trackRecipeSelection(id);
+          styleLastSelection(id);
         }}
       >
         <Header header_info={name} id={id} deleteRecipe={deleteRecipe} />
