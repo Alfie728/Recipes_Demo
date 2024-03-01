@@ -1,0 +1,38 @@
+@use 'src/utils/index.scss' as base;
+
+.instructions_panel {
+  @include base.flexColumn;
+  width: 100%;
+
+  .title {
+    padding: 1rem;
+    margin: 1rem;
+    font-weight: bold;
+  }
+
+  .panel_item {
+    display: flex;
+    justify-content: space-evenly;
+
+    * {
+      padding: 1rem;
+      margin: 1rem;
+    }
+
+    label {
+      font-weight: bold;
+      flex: 1;
+      text-align: center;
+    }
+
+    input {
+      flex: 3;
+    }
+  }
+
+  .add {
+    @include base.flexCenter;
+    justify-content: flex-end;
+    padding: 1rem;
+  }
+}

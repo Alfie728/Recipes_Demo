@@ -1,0 +1,54 @@
+@use 'src/utils/index.scss' as base;
+
+.ingredients_panel {
+  @include base.flexColumn;
+  width: 100%;
+  .title {
+    padding: 1rem;
+    margin: 1rem;
+    font-weight: bold;
+  }
+
+  .panel_item {
+    display: flex;
+    justify-content: space-evenly;
+
+    * {
+      padding: 1rem;
+      margin: 1rem;
+    }
+
+    label {
+      font-weight: bold;
+      flex: 1;
+      text-align: center;
+    }
+
+    input {
+      flex: 1;
+    }
+  }
+
+  .title_item {
+    display: flex;
+    justify-content: space-evenly;
+
+    label {
+      font-weight: bold;
+      flex: 1;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .hidden {
+      visibility: hidden;
+    }
+  }
+
+  .add {
+    @include base.flexCenter;
+    justify-content: flex-end;
+    padding: 1rem;
+  }
+}
